@@ -26,7 +26,7 @@ function MealsOverviewScreen({ route, navigation }) {
 
     function pressHandler() {
       navigation.navigate("Meal", {
-        catId: item.id,
+        id: item.id,
       });
     }
 
