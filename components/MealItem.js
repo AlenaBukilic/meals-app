@@ -1,23 +1,32 @@
 import { View, Text, Pressable, Image, Platform } from "react-native";
 import { StyleSheet } from "react-native";
+import MealDetails from "./MealDetails";
 
-function MealItem({ title, imageUrl, duration, affordability, complexity }) {
+function MealItem({
+  title,
+  imageUrl,
+  duration,
+  affordability,
+  complexity,
+  onPress,
+}) {
   return (
     <View style={styles.mealItem}>
       <Pressable
         android_ripple={{ color: "#ccc" }}
         style={({ pressed }) => (pressed ? styles.buttonPressed : null)}
+        onPress={onPress}
       >
         <View style={styles.innerContainer}>
           <View>
             <Image source={{ uri: imageUrl }} style={styles.image} />
             <Text style={styles.title}>{title}</Text>
           </View>
-          <View style={styles.details}>
-            <Text style={styles.detailItem}>{duration}m</Text>
-            <Text style={styles.detailItem}>{affordability.toUpperCase()}</Text>
-            <Text style={styles.detailItem}>{complexity.toUpperCase()}</Text>
-          </View>
+          <MealDetails
+            duration={duration}
+            affordability={affordability}
+            complexity={complexity}
+          />
         </View>
       </Pressable>
     </View>
