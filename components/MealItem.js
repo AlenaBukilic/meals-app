@@ -1,21 +1,37 @@
-import { View, Text, Pressable, Image, Platform } from "react-native";
-import { StyleSheet } from "react-native";
+import {
+  View,
+  Pressable,
+  Text,
+  Image,
+  StyleSheet,
+  Platform,
+} from "react-native";
+import { useNavigation } from "@react-navigation/native";
+
 import MealDetails from "./MealDetails";
 
 function MealItem({
+  id,
   title,
   imageUrl,
   duration,
-  affordability,
   complexity,
-  onPress,
+  affordability,
 }) {
+  const navigation = useNavigation();
+
+  function selectMealItemHandler() {
+    navigation.navigate("MealDetail", {
+      id: id,
+    });
+  }
+
   return (
     <View style={styles.mealItem}>
       <Pressable
         android_ripple={{ color: "#ccc" }}
         style={({ pressed }) => (pressed ? styles.buttonPressed : null)}
-        onPress={onPress}
+        onPress={selectMealItemHandler}
       >
         <View style={styles.innerContainer}>
           <View>
@@ -39,13 +55,16 @@ const styles = StyleSheet.create({
   mealItem: {
     margin: 16,
     borderRadius: 8,
+    overflow: Platform.OS === "android" ? "hidden" : "visible",
     backgroundColor: "white",
     elevation: 4,
-    shadowColor: "black", // ios box border
-    shadowOpacity: 0.25, // ios box border
-    shadowOffset: { width: 0, height: 2 }, // ios box border
-    shadowRadius: 8, // ios box border
-    overflow: Platform.OS === "android" ? "hidden" : "visible",
+    shadowColor: "black",
+    shadowOpacity: 0.25,
+    shadowOffset: { width: 0, height: 2 },
+    shadowRadius: 8,
+  },
+  buttonPressed: {
+    opacity: 0.5,
   },
   innerContainer: {
     borderRadius: 8,
@@ -57,21 +76,8 @@ const styles = StyleSheet.create({
   },
   title: {
     fontWeight: "bold",
-    fontSize: 18,
     textAlign: "center",
+    fontSize: 18,
     margin: 8,
-  },
-  buttonPressed: {
-    opacity: 0.5,
-  },
-  details: {
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "center",
-    padding: 8,
-  },
-  detailItem: {
-    marginHorizontal: 4,
-    fontSize: 12,
   },
 });
